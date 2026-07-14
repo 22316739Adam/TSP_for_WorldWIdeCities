@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 import sqlite3 
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, "cities.db")
+DB_PATH = os.path.join(BASE_DIR, "cities5000.db")
 
 def get_city_coordinates(city_name, country_code):
     conn = sqlite3.connect(DB_PATH)
@@ -42,7 +41,6 @@ def get_cities_data(city_names):
         cities.append(result)
 
     return cities
-=======
 import sqlite3 
 import os
 
@@ -88,4 +86,3 @@ def get_cities_data(city_names=[("Paris", "FR"), ("Madrid", "ES")]):
     return cities
 
 # print(get_cities_data())
->>>>>>> master
