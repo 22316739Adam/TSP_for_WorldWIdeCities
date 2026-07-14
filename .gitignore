@@ -1,2 +1,4 @@
 __pycache__/
 *.pyc
+coo_db/cities.db
+coo_db/allCountries/
