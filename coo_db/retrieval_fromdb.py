@@ -12,7 +12,7 @@ def get_city_coordinates(city_name, country_code):
         """
         SELECT
             city_name, latitude, longitude, country_code, population
-        FROM cities
+        FROM cities5000
         WHERE LOWER(city_name) = LOWER(?) AND country_code = UPPER(?)
         LIMIT 1
         """, (city_name, country_code)
@@ -55,7 +55,7 @@ def get_city_coordinates(city_name, country_code):
         """
         SELECT
             city_name, latitude, longitude, country_code, population
-        FROM cities
+        FROM cities5000
         WHERE LOWER(city_name) = LOWER(?) AND country_code = UPPER(?)
         LIMIT 1
         """, (city_name, country_code)
