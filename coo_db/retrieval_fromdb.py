@@ -2,7 +2,7 @@ import sqlite3
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, "..", "demo_db", "cities.db")
+DB_PATH = os.path.join(BASE_DIR, "..", "demo_db", "cities5000.db")
 DB_PATH = os.path.abspath(DB_PATH)
 
 def get_city_coordinates(city_name, country_code):
