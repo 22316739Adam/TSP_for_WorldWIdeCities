@@ -31,7 +31,7 @@ def get_city_coordinates(city_name, country_code):
     else:
         return None
     
-def get_cities_data(city_names):
+def get_cities_data(city_names=[("Paris", "FR"), ("Cairo", "EG")]):
     cities = []
 
     for city in city_names:
