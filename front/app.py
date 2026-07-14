@@ -1,3 +1,9 @@
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+
 import streamlit as st
 from coo_db.retrieval_fromdb import get_cities_data
 from bEnd.comp_distance import build_mtx
