@@ -70,9 +70,9 @@ def inv_mutate(route):
 
 #Applying 2-opt local search for improvement
 #2-opt variables
-NO_IMPROVE_LIMIT = 50   # generations without improvement before acting
+NO_IMPROVE_LIMIT = 35   # generations without improvement before acting
 MUTATION_BOOST   = 0.15  # boosted mutation rate when stagnant
-RESTART_LIMIT    = 100  # generations without improvement before restart
+RESTART_LIMIT    = 200  # generations without improvement before restart
 
 no_improve_count = 0
 best_ever_distance = float("inf")
@@ -95,7 +95,7 @@ def two_opt(route, dist_matrix):
                 if new_distance < best_distance:
                     best = new_route
                     best_distance = new_distance
-                    improved = True  # Keep looping until no improvement
+                    improved = True  # Keep looping until no improvement is seen
 
     return best
 
@@ -104,16 +104,22 @@ def fitness(solution, dist_mtx):
     return 1 / route_distance(solution, dist_mtx)
 
 #Apply tournament selection to choose parents for crossover later on
-def tournament_selection(population, fitnesses, k=5):
+def tournament_selection(population, fitnesses, k=7):
     samples = random.sample(range(len(population)), k)
     best = max(samples, key= lambda i:fitnesses[i])
     return population[best]
 
 def tsp_for(cities, distance_matrix):
+    global MUT_RATE
+
+    no_improve_count = 0
+    best_ever_distance = float("inf")
+    best_ever_route = None
+
     num_cities = len(cities)
     population = create_initial_pop(num_cities, POP_SIZE)
     #MAIN
-    for gen in range(1000):
+    for gen in range(GENS):
         fitnesses = [fitness(chromosome, distance_matrix) for chromosome in population]
         new_population = []
 
@@ -137,10 +143,12 @@ def tsp_for(cities, distance_matrix):
                 child = inv_mutate(child)
 
             new_population.append(child)
+        population = new_population
                 
         #2-opt local search
-        best_idx = min(range(len(population)), key=lambda i: route_distance(population[i], distance_matrix))
-        population[best_idx] = two_opt(population[best_idx], distance_matrix)
+        if gen % 10 == 0:
+            best_idx = min(range(len(population)), key=lambda i: route_distance(population[i], distance_matrix))
+            population[best_idx] = two_opt(population[best_idx], distance_matrix)
 
         #Convergence check
         current_best_distance = min(route_distance(r, distance_matrix) for r in population)
@@ -159,16 +167,12 @@ def tsp_for(cities, distance_matrix):
         else:
             MUT_RATE = 0.025
 
-        # Restart: reinject random individuals if deeply stagnant
+        # Restart: reinject random individuals when pop is deeply stagnant
         if no_improve_count >= RESTART_LIMIT:
             # Keep elites, replace the rest with fresh random routes
             elites = sorted(population, key=lambda r: route_distance(r, distance_matrix))[:ELITISM]
             population = elites + [random.sample(cities, len(cities)) for _ in range(POP_SIZE - ELITISM)]
             no_improve_count = 0
-        
-        population = new_population
+            continue
 
-    best_route = min(population, key= lambda r:route_distance(r, distance_matrix))
-    best_distance = route_distance(best_route, distance_matrix)
-
-    return {best_route, best_distance}
+    return best_ever_route, best_ever_distance
