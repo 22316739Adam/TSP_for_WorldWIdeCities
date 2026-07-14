@@ -22,6 +22,7 @@ num_cities = st.number_input(
 )
 
 cities = []
+cities_with_cc = []
 
 # dynamic city inputs
 for i in range(num_cities):
@@ -37,7 +38,6 @@ for i in range(num_cities):
         f"Country Code for City {i + 1}"
     )
 
-    cities_with_cc = []
     cities_with_cc.append((city, country))
 
 # solve button
