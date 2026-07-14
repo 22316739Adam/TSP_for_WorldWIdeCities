@@ -51,8 +51,8 @@ if st.button("Solve TSP"):
     distance_matrix = build_mtx(cities_data)
     st.write(distance_matrix)
 
-    # best_route, best_distance = tsp_for(c_idxs, distance_matrix)
-    # st.write(best_route, best_distance)
+    best_route, best_distance = tsp_for(c_idxs, distance_matrix)
+    st.write(best_route, best_distance)
 
     # solution = [cities[i] for i in best_route]
 
