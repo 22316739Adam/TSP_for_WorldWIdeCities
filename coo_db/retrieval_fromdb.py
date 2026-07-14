@@ -34,7 +34,7 @@ def get_city_coordinates(city_name, country_code):
 def get_cities_data(city_names):
     cities = []
 
-    for city in cities:
+    for city in city_names:
         result = get_city_coordinates(city[0], city[1])
 
         if result is None: 
