@@ -1,4 +1,3 @@
-
 #Haversine formula would be used in order to compute accurate distance between two cities on Earth
 
 from math import radians, cos, sin, sqrt, atan2
@@ -7,7 +6,7 @@ EARTH_RADIUS = 6371
 
 def haversine_distance(lat1, lon1, lat2, lon2):
     lat1 = radians(lat1)
-    lon1 = radians(lat2)
+    lon1 = radians(lon1)
     lat2 = radians(lat2)
     lon2 = radians(lon2)
 
@@ -20,7 +19,7 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     distance = EARTH_RADIUS * c
     return distance
 
-#After computing the distance between each two cities, distance matrix could be created
+
 def build_mtx(cities):
     n = len(cities)
 
@@ -33,6 +32,7 @@ def build_mtx(cities):
             city1 = cities[i]
             city2 = cities[j]
 
+            #After computing the distance between each two cities, distance matrix could be created
             distance = haversine_distance(city1["latitude"], city1["longitude"], city2["latitude"], city2["longitude"])
             mtx[i][j] = round(distance, 5) #At 5 points of precision
 
