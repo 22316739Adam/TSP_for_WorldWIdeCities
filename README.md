@@ -1,6 +1,42 @@
-# TSP_for_WorldWIdeCities
+# 🌍 TSP for Worldwide Cities
 
-The following project predicts the shortest distance between multiple cities specified by the user through the interface using the travelling salesman genetic algorithm (TSP/GA) in Python. The interface was designed using StreamLit for its ease and fastness noticed in developement achieved by automating interfaces through HTML/CSS/Javascript. Once the user enters the desired number of cities, the program passes to the backend where the TSP algorithm is implemented. Within in, a population of possible chromosomes (solutions) is initialized then goes through fitness evaluation (total route distance) for elite performers to be preserved. Next, torunament selction is applied for random parents to be chosen for order cross-over (OPX) that produces a child and checks for inversion mutation possibility. 2-opt technique is then applied for population optimization purpose. Convergence checking comes after to balance the population and increase the mutation rate if needed. The distance matrix required for the algorithm was calculated using the haversine formula that retrieves latitude and longitude values from the database implemented using SQLite. The coordinates set at allcountries.txt that was being downloaded from GeoCountires website. As the user specifies the set of cities alongside with their country code, the program computes the shortest path according to the genetic algorithma and outputs it to the interface. 
+A Python application that uses a Genetic Algorithm to approximate the shortest route between multiple cities worldwide.
 
-The database could be locally deployed after downloading the allcountries.txt file that contain worldwide cities coordinates. 
-As an improvment for upcoming releases, the database could be posted online using Supabase or connect the local one to FastAPI. 
+Built with Python, Streamlit, SQLite, and GeoNames.
+
+# Overview
+
+This project solves the classic Travelling Salesman Problem (TSP) using a Genetic Algorithm (GA) in Python. Users pick any cities worldwide through a simple web interface, and the app computes the shortest possible round-trip route connecting them — using real latitude/longitude data and the haversine formula for accurate great-circle distances.
+
+# 🛠️ Tech Stack
+
+| Layer      | Technology                |
+| ---------- | ------------------------- |
+| Interface  | Streamlit                 |
+| Algorithm  | Python                    |
+| Storage    | SQLite                    |
+| GeoNames   | Geographic dataset        |
+| Data Source| GeoNames                  |
+
+# Algorithm
+The following is an approximation simplified to what the algorithm looks like. 
+
+```mermaid
+flowchart TD
+    A["User Input"] --> B["Retrieve City Data from Database"]
+    B --> C["Compute Distance Matrix"]
+    C --> D["Generate Initial Population"]
+
+    D --> E["Evaluate Population Fitness"]
+    E --> F["Preserve Elite Individuals"]
+    F --> G["Tournament Selection"]
+    G --> H["Order Crossover (OX)"]
+    H --> I["2-Opt Local Search"]
+    I --> J{"Convergence Reached?"}
+
+    J -- No --> E
+    J -- Yes --> K["Best Route Found"]
+```
+
+# Sreenshots
+
