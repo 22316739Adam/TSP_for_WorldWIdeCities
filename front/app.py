@@ -1,4 +1,4 @@
-import sys
+import sys, os, logging
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -9,6 +9,19 @@ from coo_db.retrieval_fromdb import get_cities_data
 from bEnd.comp_distance import build_mtx
 from bEnd.tsp import tsp_for
 
+# LOG SETUP
+LOG_DIR = "logs"
+os.makedirs(LOG_DIR, exist_ok=True)
+LOG_file = os.path.join(LOG_DIR, "errs.log")
+
+logging.basicConfig(
+    filename = LOG_file, 
+    level = logging.ERROR,
+    format= "%(asctime)s | %(levelname)s | %(message)s"
+)
+logger = logging.getLogger(__name__)
+
+# UI
 st.title("Travelling Salesman algorithm for shortest distance between cities")
 
 st.write("Enter the number of cities wanted: ")
@@ -45,16 +58,24 @@ if st.button("Solve TSP"):
 
     c_idxs = [i for i in range(num_cities)]
 
-    cities_data = get_cities_data(cities_with_cc)
+    try:
+        cities_data = get_cities_data(cities_with_cc)
 
-    distance_matrix = build_mtx(cities_data)
+        distance_matrix = build_mtx(cities_data)
 
-    best_route, best_distance = tsp_for(c_idxs, distance_matrix)
-    st.write(best_route, best_distance)
+        best_route, best_distance = tsp_for(c_idxs, distance_matrix)
+        st.write(best_route, best_distance)
 
-    solution = [cities[i] for i in best_route]
+        solution = [cities[i] for i in best_route]
 
-    st.write(f"Best route found: {solution} with total distance of {best_distance}")
+        st.write(f"Best route found: {solution} with total distance of {best_distance}")
+    except EOFError as e: 
+        logger.exception("City search failed!")
+        st.error(f"{str(e)} - Please check the spelling of the city and its country code (ISO) and try again.")
+    except Exception as e:
+        logger.exception("Unexpected error!")
+        st.error("Something wrong happened during execution! Please try again or kindly report the issue")
+
 
 
     
